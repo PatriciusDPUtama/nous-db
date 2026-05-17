@@ -1,18 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
 import { Character } from "@/types/character";
 
 const elementBorders: Record<string, string> = {
 	fire: "border-red-500/70",
 	ice: "border-cyan-400/70",
-	lightning: "border-purple-500/70",
+	lightning: "border-purple-700/70",
 	wind: "border-emerald-500/70",
-	quantum: "border-fuchsia-500/70",
+	quantum: "border-violet-500/70",
 	imaginary: "border-yellow-400/70",
 	physical: "border-zinc-400/70",
 };
 
-export default function CharacterCard({
+function CharacterCard({
 	id,
 	name,
 	rarity,
@@ -20,17 +21,28 @@ export default function CharacterCard({
 	path,
 	image,
 }: Character) {
-	const borderColor = elementBorders[element.name.toLowerCase()] ?? "border-white/10";
+	const borderColor =
+		elementBorders[element.name.toLowerCase()] ?? "border-white/10";
+
 	return (
 		<Link href={`/characters/${id}`} className="group block">
 			<div
 				className={`
-					relative h-[500px] overflow-hidden rounded-2xl
-					bg-zinc-900 shadow-xl border
+					relative
+					aspect-[3/4]
+					overflow-hidden
+					rounded-2xl
+					bg-zinc-900/70
+					border-3
 					${borderColor}
-					transition-all duration-500
-					group-hover:-translate-y-2
-					group-hover:shadow-2xl
+					shadow-lg
+					transform-gpu
+					will-change-transform
+					transition-transform
+					duration-200
+					ease-out
+					group-hover:-translate-y-1
+					[content-visibility:auto]
 				`}
 			>
 				{/* Background Image */}
@@ -38,57 +50,66 @@ export default function CharacterCard({
 					src={image}
 					alt={name}
 					fill
+					loading="lazy"
+					quality={75}
+					sizes="(max-width: 768px) 100vw, 20vw"
 					className="
 						object-cover
-						transition-transform duration-700
-						group-hover:scale-110
+						transform-gpu
+						will-change-transform
+						transition-transform
+						duration-300
+						ease-out
+						group-hover:scale-105
 					"
-					sizes="(max-width: 768px) 100vw, 33vw"
 				/>
 
-				{/* Dark Overlay */}
-				<div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+				{/* Overlay */}
+				<div
+					className="
+						absolute inset-0
+						bg-gradient-to-t
+						from-black/90
+						via-black/25
+						to-black/5
+					"
+				/>
 
-				{/* Top Icons */}
+				{/* Soft top glow */}
+				<div
+					className="
+						absolute inset-0
+						bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_40%)]
+					"
+				/>
+
+				{/* Icons */}
 				<div className="absolute top-4 left-4 right-4 flex items-center justify-between">
-					{/* Path */}
 					<Image
 						src={path.icon}
 						alt={path.name}
-						width={30}
-						height={30}
-						className="
-							object-contain
-							drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]
-						"
+						width={28}
+						height={28}
+						className="object-contain opacity-90"
 					/>
 
-					{/* Element */}
 					<Image
 						src={element.icon}
 						alt={element.name}
-						width={30}
-						height={30}
-						className="
-							object-contain
-							drop-shadow-[0_0_12px_rgba(255,255,255,0.5)]
-						"
+						width={28}
+						height={28}
+						className="object-contain opacity-90"
 					/>
 				</div>
 
-				{/* Name + Rarity */}
+				{/* Footer */}
 				<div className="absolute bottom-0 left-0 w-full p-5 text-white">
-					<h2 className="text-3xl font-bold drop-shadow-lg">
-						{name}
-					</h2>
+					<h2 className="text-2xl font-bold">{name}</h2>
 
 					<div className="mt-1 flex gap-1">
 						{Array.from({ length: rarity }).map((_, i) => (
-							<span
-								key={i}
-								className="text-yellow-400 text-sm drop-shadow"
-							>
-								★
+							<span key={i} className="text-yellow-300 text-sm">
+								✦
 							</span>
 						))}
 					</div>
@@ -97,3 +118,5 @@ export default function CharacterCard({
 		</Link>
 	);
 }
+
+export default memo(CharacterCard);

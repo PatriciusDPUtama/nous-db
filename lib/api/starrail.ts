@@ -54,10 +54,11 @@ export async function getStarRailCharacters(): Promise<Character[]> {
 
 	return Object.values(charactersData).map((char) => ({
 		id: String(char.id),
-		name: char.name,
+		name: char.tag.startsWith("player") ? "Trailblazer" : char.name,
 		rarity: Number(char.rarity),
 		element: elementsData[char.element]!,
 		path: pathsData[char.path]!,
-		image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/image/character_preview/${char.id}.png`,
-	}));
+		image: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${char.preview}`,
+		splashart: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${char.portrait}`,
+	})).sort((a, b) => a.name.localeCompare(b.name));
 }

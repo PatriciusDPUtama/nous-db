@@ -2,8 +2,12 @@ export type StarRailCharacter = {
 	id: number;
 	name: string;
 	rarity : string;
+	tag : string;
 	element: string;
 	path: string;
+	icon : string;
+	preview : string;
+	portrait : string;
 };
 
 export type StarRailElement = {

@@ -8,4 +8,5 @@ export type Character = {
     element: Element;
     path: Path;
     image: string;
+    splashart : string;
 };
