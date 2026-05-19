@@ -1,5 +1,7 @@
 import { getStarRailCharacters, getStarRailItems } from "@/lib/api/starrail";
 import CharacterStatsCard from "@/components/CharacterStatsCard";
+import MaterialsListCard from "@/components/MaterialsListCard";
+
 import { Item } from "@/types/item";
 import Image from "next/image";
 import Link from "next/link";
@@ -79,9 +81,9 @@ export default async function CharacterPage({
 			<div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
 			{/* Content */}
-			<div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col gap-10 px-6 py-10 lg:flex-row lg:items-center">
+			<div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col gap-10 px-6 py-10 lg:flex-row lg:items-start">
 				{/* Left Side */}
-				<div className="flex-1">
+				<div className="lg:w-[40%]">
 					<Link
 						href="/"
 						className="
@@ -129,85 +131,15 @@ export default async function CharacterPage({
 								</span>
 							))}
 						</div>
-
-						<div className="mt-8 grid max-w-md grid-cols-2 gap-4">
-							<div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
-								<p className="text-sm text-zinc-400">
-									Element
-								</p>
-
-								<p className="mt-1 text-lg font-semibold">
-									{character.element.name}
-								</p>
-							</div>
-
-							<div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
-								<p className="text-sm text-zinc-400">
-									Path
-								</p>
-
-								<p className="mt-1 text-lg font-semibold">
-									{character.path.name}
-								</p>
-							</div>
-						</div>
-
 						{/* Stats */}
 						<CharacterStatsCard stats={character.promotion.values} />
 						{/* Materials */}
-						<div className="mt-10">
-							<h2 className="text-2xl font-bold">
-								Ascension Materials
-							</h2>
-
-							<div className="mt-4 flex flex-wrap gap-3">
-								{Object.entries(totalMaterials).map(
-									([materialId, amount]) => {
-										const material =
-											itemsData[materialId];
-
-										if (!material) return null;
-
-										return (
-											<div
-												key={materialId}
-												className="
-													group relative
-													flex flex-col items-center
-												"
-											>
-												<div
-													className="
-														rounded-2xl border border-white/10
-														bg-white/5 p-2
-														backdrop-blur-md
-														transition
-														group-hover:bg-white/10
-													"
-												>
-													<Image
-														src={material.icon}
-														alt={material.name}
-														width={56}
-														height={56}
-														className="rounded-xl"
-													/>
-												</div>
-
-												<p className="mt-2 text-sm font-bold">
-													× {amount}
-												</p>
-											</div>
-										);
-									},
-								)}
-							</div>
-						</div>
+						<MaterialsListCard totalMaterials={totalMaterials} itemsData={itemsData} />
 					</div>
 				</div>
 
 				{/* Right Side */}
-				<div className="relative flex flex-1 items-center justify-center">
+				<div className="relative lg:w-[60%] flex flex-col items-center justify-start gap-4">
 					<div
 						className={`
 							absolute h-[500px] w-[500px]
@@ -226,6 +158,11 @@ export default async function CharacterPage({
 						"
 						priority
 					/>
+					<div className="mt-6 max-w-md text-center text-sm text-zinc-300 lg:text-left">
+						<p className="italic">
+							'No description available.'
+						</p>
+					</div>
 				</div>
 			</div>
 		</main>

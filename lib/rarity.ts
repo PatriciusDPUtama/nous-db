@@ -1,13 +1,4 @@
-export type Item = {
-	id: string;
-	name: string;
-    type : string;
-    rarity : number;
-    come_from?: string[];
-	icon: string;
-};
-
-const rarityStyles: Record<number, string> = {
+export const rarityStyles: Record<number, string> = {
 	1: "border-gray-500/40 bg-gray-500/10",
 	2: "border-green-500/40 bg-green-500/10",
 	3: "border-blue-500/40 bg-blue-500/10",
