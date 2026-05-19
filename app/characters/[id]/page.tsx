@@ -1,4 +1,6 @@
-import { getStarRailCharacters } from "@/lib/api/starrail";
+import { getStarRailCharacters, getStarRailItems } from "@/lib/api/starrail";
+import CharacterStatsCard from "@/components/CharacterStatsCard";
+import { Item } from "@/types/item";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,15 +20,41 @@ export default async function CharacterPage({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	const characters = await getStarRailCharacters();
+
+	const [characters, items] = await Promise.all([
+		getStarRailCharacters(),
+		getStarRailItems(),
+	]);
+
 	const character = characters.find((c) => c.id === id);
 	if (!character) {
 		return <div className="p-6">Character not found</div>;
 	}
 
+	const itemsData: Record<string, Item> = {};
+	items.forEach((item) => {
+		itemsData[item.id] = item;
+	});
+
 	const gradient =
-		elementColors[character.element.name.toLowerCase()] ??
-		"from-slate-500 to-slate-700";
+		elementColors[
+		character.element.name.toLowerCase()
+		] ?? "from-slate-500 to-slate-700";
+
+	const stats = character.promotion.values;
+
+	const totalMaterials = character.promotion.materials
+		.flat()
+		.reduce<Record<string, number>>(
+			(acc, material) => {
+				acc[material.id] =
+					(acc[material.id] ?? 0) +
+					material.num;
+
+				return acc;
+			},
+			{},
+		);
 
 	return (
 		<main className="relative min-h-screen overflow-hidden bg-black text-white">
@@ -93,15 +121,20 @@ export default async function CharacterPage({
 							{Array.from({
 								length: character.rarity,
 							}).map((_, i) => (
-								<span key={i} className="text-2xl text-yellow-300">
+								<span
+									key={i}
+									className="text-2xl text-yellow-300"
+								>
 									✦
 								</span>
 							))}
 						</div>
 
-						<div className="mt-8 grid grid-cols-2 gap-4 max-w-md">
+						<div className="mt-8 grid max-w-md grid-cols-2 gap-4">
 							<div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
-								<p className="text-sm text-zinc-400">Element</p>
+								<p className="text-sm text-zinc-400">
+									Element
+								</p>
 
 								<p className="mt-1 text-lg font-semibold">
 									{character.element.name}
@@ -109,11 +142,65 @@ export default async function CharacterPage({
 							</div>
 
 							<div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
-								<p className="text-sm text-zinc-400">Path</p>
+								<p className="text-sm text-zinc-400">
+									Path
+								</p>
 
 								<p className="mt-1 text-lg font-semibold">
 									{character.path.name}
 								</p>
+							</div>
+						</div>
+
+						{/* Stats */}
+						<CharacterStatsCard stats={character.promotion.values} />
+						{/* Materials */}
+						<div className="mt-10">
+							<h2 className="text-2xl font-bold">
+								Ascension Materials
+							</h2>
+
+							<div className="mt-4 flex flex-wrap gap-3">
+								{Object.entries(totalMaterials).map(
+									([materialId, amount]) => {
+										const material =
+											itemsData[materialId];
+
+										if (!material) return null;
+
+										return (
+											<div
+												key={materialId}
+												className="
+													group relative
+													flex flex-col items-center
+												"
+											>
+												<div
+													className="
+														rounded-2xl border border-white/10
+														bg-white/5 p-2
+														backdrop-blur-md
+														transition
+														group-hover:bg-white/10
+													"
+												>
+													<Image
+														src={material.icon}
+														alt={material.name}
+														width={56}
+														height={56}
+														className="rounded-xl"
+													/>
+												</div>
+
+												<p className="mt-2 text-sm font-bold">
+													× {amount}
+												</p>
+											</div>
+										);
+									},
+								)}
 							</div>
 						</div>
 					</div>
@@ -128,7 +215,6 @@ export default async function CharacterPage({
 							opacity-30 blur-3xl
 						`}
 					/>
-
 					<Image
 						src={character.splashart}
 						alt={character.name}

@@ -51,7 +51,6 @@ function CharacterCard({
 					alt={name}
 					fill
 					loading="lazy"
-					quality={75}
 					sizes="(max-width: 768px) 100vw, 20vw"
 					className="
 						object-cover
