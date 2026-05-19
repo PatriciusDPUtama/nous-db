@@ -13,14 +13,7 @@ const elementBorders: Record<string, string> = {
 	physical: "border-zinc-400/40",
 };
 
-function CharacterCard({
-	id,
-	name,
-	rarity,
-	element,
-	path,
-	image,
-}: Character) {
+function CharacterCard({ id, name, rarity, element, path, image }: Character) {
 	const borderColor =
 		elementBorders[element.name.toLowerCase()] ?? "border-white/10";
 
@@ -83,9 +76,7 @@ function CharacterCard({
 					<p className="text-[10px] tracking-widest text-white/40">
 						ENTITY NODE
 					</p>
-					<h2 className="text-sm font-semibold text-white/90">
-						{name}
-					</h2>
+					<h2 className="text-sm font-semibold text-white/90">{name}</h2>
 				</div>
 			</div>
 		</Link>

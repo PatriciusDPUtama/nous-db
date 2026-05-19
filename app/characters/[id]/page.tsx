@@ -16,7 +16,7 @@ const elementColors: Record<string, string> = {
 	physical: "from-gray-400 to-zinc-500",
 };
 
-export default async function CharacterPage({
+export default async function CharacterDetailPage({
 	params,
 }: {
 	params: Promise<{ id: string }>;

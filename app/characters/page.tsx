@@ -19,7 +19,7 @@ import {
 	getStarRailPaths,
 } from "@/lib/api/starrail";
 
-export default function Home() {
+export default function CharactersPage() {
 	const [selectedElements, setSelectedElements] = useState<string[]>([]);
 	const [selectedPaths, setSelectedPaths] = useState<string[]>([]);
 	const [selectedRarity, setSelectedRarity] = useState<number | null>(null);
@@ -104,7 +104,7 @@ export default function Home() {
 			<main className="relative min-h-screen p-6 text-white">
 				<div className="flex flex-wrap items-stretch gap-4 mb-6">
 					{/* Search */}
-					<SearchBar value={search} onChange={setSearch} />
+					<SearchBar placeholder={"Search Characters..."} value={search} onChange={setSearch} />
 
 					{/* Rarity Group */}
 					<div className="h-14 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-2 backdrop-blur-md">

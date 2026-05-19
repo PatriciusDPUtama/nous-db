@@ -1,17 +1,18 @@
 type SearchBarProps = {
+	placeholder: string;
 	value: string;
 	onChange: (value: string) => void;
 };
 
-export default function SearchBar({ value, onChange }: SearchBarProps) {
+export default function SearchBar({ placeholder, value, onChange }: SearchBarProps) {
 	return (
 		<input
 			type="text"
-			placeholder="Search character..."
+			placeholder={placeholder}
 			value={value}
 			onChange={(e) => onChange(e.target.value)}
 			className="
-				h-14
+				h-12
 				flex-1 min-w-[220px]
 				bg-white/10
 				backdrop-blur-md
