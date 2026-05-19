@@ -24,3 +24,97 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.nous-loader {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #050508;
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.nous-core {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: relative;
+
+  background: radial-gradient(circle,
+      rgba(0, 255, 240, 0.35),
+      rgba(120, 90, 255, 0.15),
+      transparent 70%);
+
+  box-shadow:
+    0 0 35px rgba(0, 255, 240, 0.25),
+    0 0 70px rgba(120, 90, 255, 0.15),
+    inset 0 0 25px rgba(255, 255, 255, 0.08);
+
+  animation: corePulse 3s ease-in-out infinite;
+}
+
+.nous-core::before {
+  border: 1px solid rgba(0, 255, 240, 0.35);
+  box-shadow: 0 0 10px rgba(0, 255, 240, 0.15);
+}
+
+.nous-core::after {
+  border: 1px solid rgba(180, 120, 255, 0.25);
+  box-shadow: 0 0 12px rgba(180, 120, 255, 0.1);
+}
+
+.nous-text {
+  color: rgba(200, 255, 250, 0.85);
+  text-shadow: 0 0 10px rgba(0, 255, 240, 0.15);
+}
+
+.nous-sub {
+  color: rgba(200, 200, 255, 0.6);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinReverse {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes corePulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 0.65;
+  }
+}

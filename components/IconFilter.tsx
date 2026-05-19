@@ -30,18 +30,22 @@ export default function IconFilter<T>({
 					<button
 						key={getKey(item)}
 						onClick={() => onSelect(value)}
+						title={getLabel?.(item) ?? value}
 						className={`
 							flex items-center justify-center
 							w-10 h-10 rounded-xl border
-							transition-all
-							${
-								active
-									? "bg-cyan-400/30 border-cyan-300 scale-105"
-									: "bg-white/5 border-white/10 hover:bg-white/10"
+							transition-all duration-200
+							transform-gpu
+
+							${active
+								? "bg-cyan-400/20 border-cyan-300/60 scale-110 shadow-[0_0_12px_rgba(0,255,240,0.15)]"
+								: "bg-white/5 border-white/10 hover:bg-white/10 hover:border-cyan-400/30 hover:scale-105"
 							}
 						`}
-						title={getLabel?.(item) ?? value}
 					>
+						{/* subtle scan overlay */}
+						<div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent" />
+
 						<Image
 							src={getIcon(item)}
 							alt={value}

@@ -9,8 +9,7 @@ import {
 	StarRailItem,
 } from "@/types/starrail";
 
-const BASE_URL =
-	"https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/index_new/en";
+const BASE_URL = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/index_new/en";
 
 export async function getStarRailItems(): Promise<Item[]> {
 	const response = await fetch(`${BASE_URL}/items.json`);
