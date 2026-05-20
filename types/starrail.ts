@@ -9,9 +9,6 @@ export type StarRailCharacter = {
 	preview: string;
 	portrait: string;
 	max_sp: number;
-	ranks: string[];
-	skills: string[];
-	skill_trees: string[];
 };
 
 export type StarRailElement = {

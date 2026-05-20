@@ -11,8 +11,6 @@ export type Character = {
     splashart: string;
     icon: string;
     energy: number;
-    ranks: string[];
-    skills: string[];
     promotion: CharacterPromotion;
 };
 
