@@ -18,6 +18,7 @@ export type StarRailElement = {
 	id: string;
 	name: string;
 	icon: string;
+	color: string;
 };
 
 export type StarRailPath = {
