@@ -33,6 +33,7 @@ export type StarRailItem = {
 	name: string;
 	type: string;
 	rarity: number;
+	sub_type : string;
 	icon: string;
 	come_from: string[];
 }

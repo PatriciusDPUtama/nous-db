@@ -4,7 +4,7 @@ export type Item = {
     type : string;
 	sub_type : string;
     rarity : number;
-    come_from?: string[];
+    come_from: string[];
 	icon: string;
 };
 
