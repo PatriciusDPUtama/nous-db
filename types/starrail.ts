@@ -24,8 +24,8 @@ export type StarRailPath = {
 	id: string;
 	name: string;
 	icon: string;
-	icon_middle?: string;
-	icon_small?: string;
+	icon_middle: string;
+	icon_small: string;
 };
 
 export type StarRailItem = {
