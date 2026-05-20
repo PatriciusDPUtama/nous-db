@@ -93,8 +93,6 @@ export async function getStarRailCharacters(): Promise<Character[]> {
 			splashart: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${char.portrait}`,
 			icon: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${char.icon}`,
 			energy: char.max_sp,
-			ranks: char.ranks,
-			skills: char.skills,
 			promotion: promotionsData[String(char.id)],
 		}))
 		.sort((a, b) => a.name.localeCompare(b.name));
