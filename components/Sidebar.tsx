@@ -40,7 +40,12 @@ export default function Sidebar() {
                 {/* Logo */}
                 <div className="mb-8 flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/10 bg-[#111827] text-lg">
-                        ✨
+                        <Image
+                            src="/logo.png"
+                            alt="home"
+                            width={18}
+                            height={18}
+                        />
                     </div>
 
                     <div>
