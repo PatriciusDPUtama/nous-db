@@ -50,7 +50,7 @@ export default function Sidebar() {
                     </div>
 
                     <div>
-                        <h1 className="text-xl font-black">HSR DB</h1>
+                        <h1 className="text-xl font-black">NOUS DB</h1>
                         <p className="text-[10px] uppercase tracking-[0.3em] text-cyan-200/60">
                             Archive
                         </p>
