@@ -2,11 +2,14 @@ import { Character, CharacterPromotion } from "@/types/character";
 import { Element } from "@/types/element";
 import { Path } from "@/types/path";
 import { Item } from "@/types/item";
+import { LightCone } from "@/types/lightcone";
+
 import {
 	StarRailCharacter,
 	StarRailElement,
 	StarRailPath,
 	StarRailItem,
+	StarRailLightCone,
 } from "@/types/starrail";
 
 const BASE_URL = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/index_new/en";
@@ -96,4 +99,26 @@ export async function getStarRailCharacters(): Promise<Character[]> {
 			promotion: promotionsData[String(char.id)],
 		}))
 		.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export async function getStarRailLightCones(): Promise<LightCone[]> {
+	const [lightconeResponse, paths] = await Promise.all([
+		fetch(`${BASE_URL}/light_cones.json`),
+		getStarRailPaths(),
+	]);
+
+	const lightconeData: Record<string, StarRailLightCone> =
+		await lightconeResponse.json();
+
+	const pathsData = Object.fromEntries(
+		paths.map((path) => [path.id, path]),
+	);
+
+	return Object.values(lightconeData).map((lc) => ({
+		...lc,
+		path: pathsData[lc.path]!,
+		icon: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.icon}`,
+		preview: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.preview}`,
+		portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.portrait}`,
+	})).sort((a, b) => a.name.localeCompare(b.name));
 }

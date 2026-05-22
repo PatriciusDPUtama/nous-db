@@ -35,3 +35,14 @@ export type StarRailItem = {
 	icon: string;
 	come_from: string[];
 }
+
+export type StarRailLightCone = {
+	id: string;
+	name: string;
+	rarity : number;
+	path : string;
+	desc : string;
+	icon: string;
+	preview : string;
+	portrait : string;
+};
