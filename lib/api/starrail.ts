@@ -2,7 +2,7 @@ import { Character, CharacterPromotion } from "@/types/character";
 import { Element } from "@/types/element";
 import { Path } from "@/types/path";
 import { Item } from "@/types/item";
-import { LightCone } from "@/types/lightcone";
+import { LightCone, LightConePromotion } from "@/types/lightcone";
 
 import {
 	StarRailCharacter,
@@ -46,7 +46,7 @@ export async function getStarRailElements(): Promise<Element[]> {
 	}));
 }
 
-export async function getStarRailPromotions(): Promise<CharacterPromotion[]> {
+export async function getStarRailCharacterPromotions(): Promise<CharacterPromotion[]> {
 	const response = await fetch(`${BASE_URL}/character_promotions.json`);
 	const data: Record<string, any> = await response.json();
 
@@ -57,12 +57,23 @@ export async function getStarRailPromotions(): Promise<CharacterPromotion[]> {
 	}));
 }
 
+export async function getStarRailLightConePromotions(): Promise<LightConePromotion[]> {
+	const response = await fetch(`${BASE_URL}/light_cone_promotions.json`);
+	const data: Record<string, any> = await response.json();
+
+	return Object.values(data).map((promotion: any) => ({
+		lightcone_id: promotion.id,
+		values: promotion.values,
+		materials: promotion.materials,
+	}));
+}
+
 export async function getStarRailCharacters(): Promise<Character[]> {
 	const [charactersResponse, elements, paths, promotions,] = await Promise.all([
 		fetch(`${BASE_URL}/characters.json`),
 		getStarRailElements(),
 		getStarRailPaths(),
-		getStarRailPromotions(),
+		getStarRailCharacterPromotions(),
 	]);
 
 	const charactersData: Record<string, StarRailCharacter> =
@@ -102,9 +113,10 @@ export async function getStarRailCharacters(): Promise<Character[]> {
 }
 
 export async function getStarRailLightCones(): Promise<LightCone[]> {
-	const [lightconeResponse, paths] = await Promise.all([
+	const [lightconeResponse, paths, promotions] = await Promise.all([
 		fetch(`${BASE_URL}/light_cones.json`),
 		getStarRailPaths(),
+		getStarRailLightConePromotions(),
 	]);
 
 	const lightconeData: Record<string, StarRailLightCone> =
@@ -114,11 +126,19 @@ export async function getStarRailLightCones(): Promise<LightCone[]> {
 		paths.map((path) => [path.id, path]),
 	);
 
+	const promotionsData = Object.fromEntries(
+		promotions.map((promotion) => [
+			promotion.lightcone_id,
+			promotion,
+		]),
+	);
+
 	return Object.values(lightconeData).map((lc) => ({
 		...lc,
 		path: pathsData[lc.path]!,
 		icon: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.icon}`,
 		preview: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.preview}`,
 		portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.portrait}`,
+		promotion: promotionsData[String(lc.id)],
 	})).sort((a, b) => a.name.localeCompare(b.name));
 }
