@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { LightConeStats } from "@/types/lightcone";
 
 type Props = {
 	stats: LightConeStats[];
+	level: number;
+	setLevel: (level: number) => void;
 };
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function LightConeStatsCard({ stats }: Props) {
-	const [level, setLevel] = useState(1);
-
+export default function LightConeStatsCard({ stats, level, setLevel }: Props) {
 	const phase = useMemo(() => {
 		if (level >= 70) return stats[6];
 		if (level >= 60) return stats[5];
@@ -81,6 +81,7 @@ export default function LightConeStatsCard({ stats }: Props) {
 					>
 						<div className="flex w-1/2 items-center gap-2 text-xs text-zinc-400">
 							<Image src={stat.icon} alt="characters" width={18} height={18} />
+
 							<span className="truncate">{stat.label}</span>
 						</div>
 

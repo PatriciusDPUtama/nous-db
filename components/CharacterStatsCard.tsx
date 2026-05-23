@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { CharacterStats } from "@/types/character";
 
 type Props = {
 	stats: CharacterStats[];
+	level: number;
+	setLevel: (level: number) => void;
 };
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function CharacterStatsCard({ stats }: Props) {
-	const [level, setLevel] = useState(1);
-
+export default function CharacterStatsCard({ stats, level, setLevel }: Props) {
 	const phase = useMemo(() => {
 		if (level >= 70) return stats[6];
 		if (level >= 60) return stats[5];

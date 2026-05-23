@@ -1,6 +1,5 @@
 import { getStarRailCharacters, getStarRailItems } from "@/lib/api/starrail";
-import CharacterStatsCard from "@/components/CharacterStatsCard";
-import MaterialsListCard from "@/components/MaterialsListCard";
+import CharacterInfoSection from "@/components/CharacterInfoSection";
 
 import { Item } from "@/types/item";
 import Image from "next/image";
@@ -131,10 +130,8 @@ export default async function CharacterDetailPage({
 								</span>
 							))}
 						</div>
-						{/* Stats */}
-						<CharacterStatsCard stats={character.promotion.values} />
-						{/* Materials */}
-						<MaterialsListCard totalMaterials={totalMaterials} itemsData={itemsData} />
+						{/* Stats & Materials */}
+						<CharacterInfoSection character={character} itemsData={itemsData} />
 					</div>
 				</div>
 

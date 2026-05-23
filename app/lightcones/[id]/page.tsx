@@ -1,11 +1,9 @@
 import { getStarRailLightCones, getStarRailItems } from "@/lib/api/starrail";
-import LightConeStatsCard from "@/components/LightConeStatsCard";
-import MaterialsListCard from "@/components/MaterialsListCard";
+import LightConeInfoSection from "@/components/LightConeInfoSection";
 
 import { Item } from "@/types/item";
 import Image from "next/image";
 import Link from "next/link";
-
 
 export default async function LightConeDetailPage({
 	params,
@@ -33,16 +31,11 @@ export default async function LightConeDetailPage({
 
 	const totalMaterials = lightcone.promotion.materials
 		.flat()
-		.reduce<Record<string, number>>(
-			(acc, material) => {
-				acc[material.id] =
-					(acc[material.id] ?? 0) +
-					material.num;
+		.reduce<Record<string, number>>((acc, material) => {
+			acc[material.id] = (acc[material.id] ?? 0) + material.num;
 
-				return acc;
-			},
-			{},
-		);
+			return acc;
+		}, {});
 
 	return (
 		<main className="relative min-h-screen overflow-hidden bg-black text-white">
@@ -101,18 +94,14 @@ export default async function LightConeDetailPage({
 							{Array.from({
 								length: lightcone.rarity,
 							}).map((_, i) => (
-								<span
-									key={i}
-									className="text-2xl text-yellow-300"
-								>
+								<span key={i} className="text-2xl text-yellow-300">
 									✦
 								</span>
 							))}
 						</div>
-						{/* Stats */}
-						<LightConeStatsCard stats={lightcone.promotion.values} />
-						{/* Materials */}
-						<MaterialsListCard totalMaterials={totalMaterials} itemsData={itemsData} />
+
+						{/* Stats & Material */}
+						<LightConeInfoSection lightcone={lightcone} itemsData={itemsData} />
 					</div>
 				</div>
 
@@ -128,8 +117,8 @@ export default async function LightConeDetailPage({
 					<Image
 						src={lightcone.portrait}
 						alt={lightcone.portrait}
-						width={400}
-						height={600}
+						width={500}
+						height={700}
 						className="
 							relative z-10 object-contain
 							drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]
@@ -137,9 +126,7 @@ export default async function LightConeDetailPage({
 						priority
 					/>
 					<div className="mt-4 max-w-md text-center text-sm text-zinc-300 lg:text-left">
-						<p className="italic">
-							{lightcone.desc}
-						</p>
+						<p className="italic">{lightcone.desc}</p>
 					</div>
 				</div>
 			</div>
