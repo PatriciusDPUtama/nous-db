@@ -27,38 +27,8 @@ export default async function LightConeDetailPage({
 		itemsData[item.id] = item;
 	});
 
-	const stats = lightcone.promotion.values;
-
-	const totalMaterials = lightcone.promotion.materials
-		.flat()
-		.reduce<Record<string, number>>((acc, material) => {
-			acc[material.id] = (acc[material.id] ?? 0) + material.num;
-
-			return acc;
-		}, {});
-
 	return (
-		<main className="relative min-h-screen overflow-hidden bg-black text-white">
-			{/* Background */}
-			<div
-				className={`
-					absolute inset-0 bg-gradient-to-br
-					opacity-20
-				`}
-			/>
-
-			<Image
-				src={lightcone.portrait}
-				alt={lightcone.name}
-				fill
-				className="
-					object-cover opacity-20 blur-sm
-				"
-				priority
-			/>
-
-			<div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-
+		<main className="relative min-h-screen overflow-hidden text-white">
 			{/* Content */}
 			<div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col gap-10 px-6 py-10 lg:flex-row lg:items-start">
 				{/* Left Side */}

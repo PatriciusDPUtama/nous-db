@@ -1,4 +1,8 @@
-import { Character, CharacterPromotion } from "@/types/character";
+import {
+	Character,
+	CharacterPromotion,
+	CharacterSkill,
+} from "@/types/character";
 import { Element } from "@/types/element";
 import { Path } from "@/types/path";
 import { Item } from "@/types/item";
@@ -12,13 +16,13 @@ import {
 	StarRailLightCone,
 } from "@/types/starrail";
 
-const BASE_URL = "https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/index_new/en";
+const BASE_URL =
+	"https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/index_new/en";
 
 export async function getStarRailItems(): Promise<Item[]> {
 	const response = await fetch(`${BASE_URL}/items.json`);
 
-	const data: Record<string, StarRailItem> =
-		await response.json();
+	const data: Record<string, StarRailItem> = await response.json();
 
 	return Object.values(data).map((item) => ({
 		...item,
@@ -46,7 +50,9 @@ export async function getStarRailElements(): Promise<Element[]> {
 	}));
 }
 
-export async function getStarRailCharacterPromotions(): Promise<CharacterPromotion[]> {
+export async function getStarRailCharacterPromotions(): Promise<
+	CharacterPromotion[]
+> {
 	const response = await fetch(`${BASE_URL}/character_promotions.json`);
 	const data: Record<string, any> = await response.json();
 
@@ -57,7 +63,18 @@ export async function getStarRailCharacterPromotions(): Promise<CharacterPromoti
 	}));
 }
 
-export async function getStarRailLightConePromotions(): Promise<LightConePromotion[]> {
+export async function getStarRailCharacterSkills(): Promise<CharacterSkill[]> {
+	const response = await fetch(`${BASE_URL}/character_skills.json`);
+	const data: Record<string, any> = await response.json();
+
+	return Object.values(data).map((skill: any) => ({
+		...skill,
+	}));
+}
+
+export async function getStarRailLightConePromotions(): Promise<
+	LightConePromotion[]
+> {
 	const response = await fetch(`${BASE_URL}/light_cone_promotions.json`);
 	const data: Record<string, any> = await response.json();
 
@@ -69,12 +86,14 @@ export async function getStarRailLightConePromotions(): Promise<LightConePromoti
 }
 
 export async function getStarRailCharacters(): Promise<Character[]> {
-	const [charactersResponse, elements, paths, promotions,] = await Promise.all([
-		fetch(`${BASE_URL}/characters.json`),
-		getStarRailElements(),
-		getStarRailPaths(),
-		getStarRailCharacterPromotions(),
-	]);
+	const [charactersResponse, elements, paths, promotions, skills] =
+		await Promise.all([
+			fetch(`${BASE_URL}/characters.json`),
+			getStarRailElements(),
+			getStarRailPaths(),
+			getStarRailCharacterPromotions(),
+			getStarRailCharacterSkills(),
+		]);
 
 	const charactersData: Record<string, StarRailCharacter> =
 		await charactersResponse.json();
@@ -83,23 +102,20 @@ export async function getStarRailCharacters(): Promise<Character[]> {
 		elements.map((element) => [element.id, element]),
 	);
 
-	const pathsData = Object.fromEntries(
-		paths.map((path) => [path.id, path]),
-	);
+	const pathsData = Object.fromEntries(paths.map((path) => [path.id, path]));
 
 	const promotionsData = Object.fromEntries(
-		promotions.map((promotion) => [
-			promotion.character_id,
-			promotion,
-		]),
+		promotions.map((promotion) => [promotion.character_id, promotion]),
+	);
+
+	const skillsData = Object.fromEntries(
+		skills.map((skill) => [skill.id, skill]),
 	);
 
 	return Object.values(charactersData)
 		.map((char) => ({
 			id: String(char.id),
-			name: char.tag.startsWith("player")
-				? "Trailblazer"
-				: char.name,
+			name: char.tag.startsWith("player") ? "Trailblazer" : char.name,
 			rarity: char.rarity,
 			element: elementsData[char.element]!,
 			path: pathsData[char.path]!,
@@ -108,6 +124,7 @@ export async function getStarRailCharacters(): Promise<Character[]> {
 			icon: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${char.icon}`,
 			energy: char.max_sp,
 			promotion: promotionsData[String(char.id)],
+			skills: char.skills.map((skillId) => skillsData[skillId]),
 		}))
 		.sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -122,23 +139,20 @@ export async function getStarRailLightCones(): Promise<LightCone[]> {
 	const lightconeData: Record<string, StarRailLightCone> =
 		await lightconeResponse.json();
 
-	const pathsData = Object.fromEntries(
-		paths.map((path) => [path.id, path]),
-	);
+	const pathsData = Object.fromEntries(paths.map((path) => [path.id, path]));
 
 	const promotionsData = Object.fromEntries(
-		promotions.map((promotion) => [
-			promotion.lightcone_id,
-			promotion,
-		]),
+		promotions.map((promotion) => [promotion.lightcone_id, promotion]),
 	);
 
-	return Object.values(lightconeData).map((lc) => ({
-		...lc,
-		path: pathsData[lc.path]!,
-		icon: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.icon}`,
-		preview: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.preview}`,
-		portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.portrait}`,
-		promotion: promotionsData[String(lc.id)],
-	})).sort((a, b) => a.name.localeCompare(b.name));
+	return Object.values(lightconeData)
+		.map((lc) => ({
+			...lc,
+			path: pathsData[lc.path]!,
+			icon: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.icon}`,
+			preview: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.preview}`,
+			portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.portrait}`,
+			promotion: promotionsData[String(lc.id)],
+		}))
+		.sort((a, b) => a.name.localeCompare(b.name));
 }
