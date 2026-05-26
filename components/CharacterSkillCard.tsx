@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { CharacterSkill } from "@/types/character";
 
 type Props = {
@@ -10,8 +11,13 @@ type Props = {
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export default function CharacterSkillCard({ skill, level = 1 }: Props) {
-	const params = skill.params[level - 1] ?? [];
+export default function CharacterSkillCard({
+	skill,
+	level = 1,
+}: Props) {
+	const [selectedLevel, setSelectedLevel] = useState(level);
+
+	const params = skill.params[selectedLevel - 1] ?? [];
 
 	let parsedDesc = skill.desc;
 
@@ -25,7 +31,10 @@ export default function CharacterSkillCard({ skill, level = 1 }: Props) {
 		);
 
 		// Integer
-		parsedDesc = parsedDesc.replaceAll(`#${key}[i]`, `${Math.round(value)}`);
+		parsedDesc = parsedDesc.replaceAll(
+			`#${key}[i]`,
+			`${Math.round(value)}`,
+		);
 
 		// Float 1 Percent
 		parsedDesc = parsedDesc.replaceAll(
@@ -34,7 +43,10 @@ export default function CharacterSkillCard({ skill, level = 1 }: Props) {
 		);
 
 		// Float 1
-		parsedDesc = parsedDesc.replaceAll(`#${key}[f1]`, value.toFixed(1));
+		parsedDesc = parsedDesc.replaceAll(
+			`#${key}[f1]`,
+			value.toFixed(1),
+		);
 
 		// Float 2 Percent
 		parsedDesc = parsedDesc.replaceAll(
@@ -43,7 +55,10 @@ export default function CharacterSkillCard({ skill, level = 1 }: Props) {
 		);
 
 		// Float 2
-		parsedDesc = parsedDesc.replaceAll(`#${key}[f2]`, value.toFixed(2));
+		parsedDesc = parsedDesc.replaceAll(
+			`#${key}[f2]`,
+			value.toFixed(2),
+		);
 	});
 
 	return (
@@ -111,6 +126,42 @@ export default function CharacterSkillCard({ skill, level = 1 }: Props) {
 				</div>
 			</div>
 
+			{/* Slider */}
+			<div className="px-5 pb-4">
+				<div className="mb-2 flex items-center justify-between">
+					<p className="text-xs text-zinc-500">
+						Skill Level
+					</p>
+
+					<p className="text-sm font-semibold text-cyan-300">
+						Lv. {selectedLevel}
+					</p>
+				</div>
+
+				<input
+					type="range"
+					min={1}
+					max={skill.params.length}
+					value={selectedLevel}
+					onChange={(e) =>
+						setSelectedLevel(Number(e.target.value))
+					}
+					className="
+						h-2 w-full
+						cursor-pointer
+						appearance-none
+						rounded-full
+						bg-white/10
+
+						[&::-webkit-slider-thumb]:h-4
+						[&::-webkit-slider-thumb]:w-4
+						[&::-webkit-slider-thumb]:appearance-none
+						[&::-webkit-slider-thumb]:rounded-full
+						[&::-webkit-slider-thumb]:bg-cyan-400
+					"
+				/>
+			</div>
+
 			{/* Description */}
 			<div
 				className="
@@ -139,13 +190,19 @@ export default function CharacterSkillCard({ skill, level = 1 }: Props) {
 				"
 			>
 				<div>
-					<p className="text-[10px] text-zinc-500">LEVEL</p>
+					<p className="text-[10px] text-zinc-500">
+						LEVEL
+					</p>
 
-					<p className="text-sm font-semibold text-white">{level}</p>
+					<p className="text-sm font-semibold text-white">
+						{selectedLevel}
+					</p>
 				</div>
 
 				<div className="text-right">
-					<p className="text-[10px] text-zinc-500">SCALING</p>
+					<p className="text-[10px] text-zinc-500">
+						SCALING
+					</p>
 
 					<p className="text-sm font-semibold text-cyan-300">
 						{((params[0] ?? 0) * 100).toFixed(0)}%

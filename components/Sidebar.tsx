@@ -33,8 +33,6 @@ export default function Sidebar() {
 				text-white
 			"
         >
-            {/* background grid */}
-            <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:100%_36px]" />
 
             <div className="relative z-10 flex h-full flex-col p-4">
                 {/* Logo */}
