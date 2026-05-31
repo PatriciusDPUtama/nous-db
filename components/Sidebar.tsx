@@ -90,7 +90,7 @@ export default function Sidebar() {
 
                         <div className="flex items-center gap-2">
                             <Image
-                                src={`${BASE_URL}/icon/sign/TeamIcon.png`}
+                                src={`${BASE_URL}/icon/sign/AvatarIcon.png`}
                                 alt="characters"
                                 width={18}
                                 height={18}
@@ -117,6 +117,27 @@ export default function Sidebar() {
                                 height={18}
                             />
                             <p className="text-sm font-semibold">Light Cones</p>
+                        </div>
+                    </Link>
+
+                    <Link href="/relics" className={linkClass(isActive("/relics"))}>
+                        <div
+                            className={`
+								absolute inset-y-0 left-0 w-[2px]
+								bg-cyan-300
+								transition-all
+								${isActive("/relics") ? "opacity-100" : "opacity-0 group-hover:opacity-30"}
+							`}
+                        />
+
+                        <div className="flex items-center gap-2">
+                            <Image
+                                src={`${BASE_URL}/icon/sign/CocoonIcon.png`}
+                                alt="lightcones"
+                                width={18}
+                                height={18}
+                            />
+                            <p className="text-sm font-semibold">Relics</p>
                         </div>
                     </Link>
 

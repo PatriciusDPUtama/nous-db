@@ -7,6 +7,7 @@ import { Element } from "@/types/element";
 import { Path } from "@/types/path";
 import { Item } from "@/types/item";
 import { LightCone, LightConePromotion } from "@/types/lightcone";
+import { Relic, RelicSets } from "@/types/relic";
 
 import {
 	StarRailCharacter,
@@ -14,6 +15,7 @@ import {
 	StarRailPath,
 	StarRailItem,
 	StarRailLightCone,
+	StarRailRelic,
 } from "@/types/starrail";
 
 const BASE_URL =
@@ -82,6 +84,38 @@ export async function getStarRailLightConePromotions(): Promise<
 		lightcone_id: promotion.id,
 		values: promotion.values,
 		materials: promotion.materials,
+	}));
+}
+
+export async function getStarRailRelicSets(): Promise<RelicSets[]> {
+	const response = await fetch(`${BASE_URL}/relic_sets.json`);
+	const data: Record<string, RelicSets> = await response.json();
+
+	return Object.values(data).map((set) => ({
+		...set,
+		icon: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${set.icon}`,
+	}));
+}
+
+export async function getStarRailRelics(): Promise<Relic[]> {
+	const [relicsResponse, relicSets] = await Promise.all([
+		fetch(`${BASE_URL}/relics.json`),
+		getStarRailRelicSets(),
+	]);
+
+	const relicsData: Record<string, StarRailRelic> = await relicsResponse.json();
+	const setsData = Object.fromEntries(relicSets.map((set) => [set.id, set]));
+
+	return Object.values(relicsData).map((relic) => ({
+		id: relic.id,
+		set: setsData[relic.set_id]!,
+		name: relic.name,
+		rarity: relic.rarity,
+		type: relic.type,
+		max_level: relic.max_level,
+		main_affix_id: relic.main_affix_id,
+		sub_affix_id: relic.sub_affix_id,
+		icon: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${relic.icon}`,
 	}));
 }
 

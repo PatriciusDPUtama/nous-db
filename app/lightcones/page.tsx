@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import LightConeCard from "@/components/LightConeCard";
@@ -87,7 +86,7 @@ export default function LightConePage() {
             <main className="relative min-h-screen p-6 text-white">
                 <div className="flex flex-wrap items-stretch gap-4 mb-6">
                     {/* Search */}
-                    <SearchBar placeholder={"Search Lightcones..."} value={search} onChange={setSearch} />
+                    <SearchBar placeholder={"Search Light Cones..."} value={search} onChange={setSearch} />
 
                     {/* Rarity Group */}
                     <div className="h-12 flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-2 backdrop-blur-md">

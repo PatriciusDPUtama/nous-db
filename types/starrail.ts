@@ -32,18 +32,30 @@ export type StarRailItem = {
 	name: string;
 	type: string;
 	rarity: number;
-	sub_type : string;
+	sub_type: string;
 	icon: string;
 	come_from: string[];
-}
+};
 
 export type StarRailLightCone = {
 	id: string;
 	name: string;
-	rarity : number;
-	path : string;
-	desc : string;
+	rarity: number;
+	path: string;
+	desc: string;
 	icon: string;
-	preview : string;
-	portrait : string;
+	preview: string;
+	portrait: string;
+};
+
+export type StarRailRelic = {
+	id: string;
+	set_id: string;
+	name: string;
+	rarity: number;
+	type: string;
+	max_level: number;
+	main_affix_id: string;
+	sub_affix_id: string;
+	icon: string;
 };
