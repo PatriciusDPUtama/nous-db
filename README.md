@@ -1,4 +1,4 @@
-# Honkai: Star Rail Database
+# Nous-DB
 
 A fan-made Honkai: Star Rail database built with Next.js and TypeScript.
 
@@ -48,12 +48,6 @@ Start the development server:
 
 ```bash
 npm run dev
-```
-
-Open:
-
-```text
-http://localhost:3000
 ```
 
 ## Learning Goals
