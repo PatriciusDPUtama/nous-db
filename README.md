@@ -4,6 +4,9 @@ A fan-made Honkai: Star Rail database built with Next.js and TypeScript.
 
 This project was created as a learning journey to explore modern frontend development while building a real application. Character data is sourced from the StarRailRes project and displayed through a custom interface featuring character browsing, filtering, searching, and detailed character pages.
 
+## Live Demo
+🌐 https://nous-db.vercel.app
+
 ## Features
 
 - Character list page
