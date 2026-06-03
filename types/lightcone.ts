@@ -10,6 +10,7 @@ export type LightCone = {
     preview : string;
     portrait : string;
     promotion: LightConePromotion;
+    skills: LightConeSkill;
 };
 
 export type LightConeStatValue = {
@@ -33,3 +34,11 @@ export type LightConePromotion = {
     values: LightConeStats[];
     materials: LightConeMaterial[][];
 };
+
+export type LightConeSkill = {
+	id: string;
+	skill: string;
+	desc: string;
+	params: number[][];
+}
+

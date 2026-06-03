@@ -6,6 +6,10 @@ import { Item } from "@/types/item";
 import Image from "next/image";
 import Link from "next/link";
 
+const ignoredTypes = new Set([
+	"MazeNormal",
+]);
+
 const elementColors: Record<string, string> = {
 	fire: "from-red-500 to-orange-400",
 	ice: "from-cyan-400 to-blue-500",
@@ -46,7 +50,6 @@ export default async function CharacterDetailPage({
 
 	return (
 		<main className="relative min-h-screen overflow-hidden text-white">
-
 			{/* Content */}
 			<div className="relative z-10 mx-auto max-w-7xl px-6 py-10">
 				{/* TOP SECTION */}
@@ -129,30 +132,12 @@ export default async function CharacterDetailPage({
 							"
 							priority
 						/>
-
-						<div
-							className="
-								mt-6 max-w-md
-								rounded-2xl
-								border border-white/10
-								bg-white/[0.03]
-								p-4
-								text-center text-sm
-								text-zinc-300
-								backdrop-blur-md
-								lg:text-left
-							"
-						>
-							<p className="italic">No description available.</p>
-						</div>
 					</div>
 				</div>
 
 				{/* SKILLS */}
 				<div className="mt-6">
-					<h2 className="text-lg font-bold text-white">
-						Skills
-					</h2>
+					<h2 className="text-lg font-bold text-white">Skills</h2>
 				</div>
 
 				<div
@@ -164,11 +149,13 @@ export default async function CharacterDetailPage({
 						items-start
 					"
 				>
-					{character.skills.map((skill) => (
-						<div key={skill.id} className="w-full min-w-0">
-							<CharacterSkillCard skill={skill} level={1} />
-						</div>
-					))}
+					{character.skills
+						.filter((skill) => !ignoredTypes.has(skill.type))
+						.map((skill) => (
+							<div key={skill.id} className="w-full min-w-0">
+								<CharacterSkillCard skill={skill} level={1} />
+							</div>
+						))}
 				</div>
 			</div>
 		</main>

@@ -6,7 +6,7 @@ import {
 import { Element } from "@/types/element";
 import { Path } from "@/types/path";
 import { Item } from "@/types/item";
-import { LightCone, LightConePromotion } from "@/types/lightcone";
+import { LightCone, LightConePromotion, LightConeSkill } from "@/types/lightcone";
 import { Relic, RelicSets } from "@/types/relic";
 
 import {
@@ -87,6 +87,17 @@ export async function getStarRailLightConePromotions(): Promise<
 	}));
 }
 
+export async function getStarRailLightConeSkills(): Promise<
+	LightConeSkill[]
+> {
+	const response = await fetch(`${BASE_URL}/light_cone_ranks.json`);
+	const data: Record<string, any> = await response.json();
+
+	return Object.values(data).map((skills) => ({
+		...skills,
+	}));
+}
+
 export async function getStarRailRelicSets(): Promise<RelicSets[]> {
 	const response = await fetch(`${BASE_URL}/relic_sets.json`);
 	const data: Record<string, RelicSets> = await response.json();
@@ -164,10 +175,11 @@ export async function getStarRailCharacters(): Promise<Character[]> {
 }
 
 export async function getStarRailLightCones(): Promise<LightCone[]> {
-	const [lightconeResponse, paths, promotions] = await Promise.all([
+	const [lightconeResponse, paths, promotions, skills] = await Promise.all([
 		fetch(`${BASE_URL}/light_cones.json`),
 		getStarRailPaths(),
 		getStarRailLightConePromotions(),
+		getStarRailLightConeSkills(),
 	]);
 
 	const lightconeData: Record<string, StarRailLightCone> =
@@ -179,6 +191,10 @@ export async function getStarRailLightCones(): Promise<LightCone[]> {
 		promotions.map((promotion) => [promotion.lightcone_id, promotion]),
 	);
 
+	const skillsData = Object.fromEntries(
+		skills.map((skill) => [skill.id, skill]),
+	);
+
 	return Object.values(lightconeData)
 		.map((lc) => ({
 			...lc,
@@ -187,6 +203,7 @@ export async function getStarRailLightCones(): Promise<LightCone[]> {
 			preview: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.preview}`,
 			portrait: `https://raw.githubusercontent.com/Mar-7th/StarRailRes/master/${lc.portrait}`,
 			promotion: promotionsData[String(lc.id)],
+			skills: skillsData[String(lc.id)],
 		}))
 		.sort((a, b) => a.name.localeCompare(b.name));
 }

@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function CharacterInfoSection({ character, itemsData }: Props) {
-	const [level, setLevel] = useState(1);
+	const [level, setLevel] = useState(80);
 
 	const totalMaterials = useMemo(() => {
 		return getMaterialsForLevel(character.promotion.materials, level);

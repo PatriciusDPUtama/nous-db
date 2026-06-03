@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import LightConeStatsCard from "@/components/LightConeStatsCard";
 import MaterialsListCard from "@/components/MaterialsListCard";
+import LightConeSkillCard from "@/components/LightConeSkillCard";
 import { getMaterialsForLevel } from "@/lib/materials";
 import { Item } from "@/types/item";
 
@@ -12,8 +13,7 @@ type Props = {
 };
 
 export default function LightConeInfoSection({ lightcone, itemsData }: Props) {
-	const [level, setLevel] = useState(1);
-
+	const [level, setLevel] = useState(80);
 	const totalMaterials = useMemo(() => {
 		return getMaterialsForLevel(lightcone.promotion.materials, level);
 	}, [lightcone, level]);
@@ -29,6 +29,10 @@ export default function LightConeInfoSection({ lightcone, itemsData }: Props) {
 			<MaterialsListCard
 				totalMaterials={totalMaterials}
 				itemsData={itemsData}
+			/>
+
+			<LightConeSkillCard
+				skill={lightcone.skills}
 			/>
 		</>
 	);
