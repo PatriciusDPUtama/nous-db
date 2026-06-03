@@ -1,21 +1,22 @@
 # Nous-DB
 
-A fan-made Honkai: Star Rail database built with Next.js and TypeScript.
+A fan-made Honkai: Star Rail database built with Next.js, TypeScript, and Tailwind CSS.
 
-This project was created as a learning journey to explore modern frontend development while building a real application. Character data is sourced from the StarRailRes project and displayed through a custom interface featuring character browsing, filtering, searching, and detailed character pages.
+Nous-DB provides a fast and modern interface for browsing Honkai: Star Rail characters, viewing character details, and exploring game data. The project is developed as a hands-on learning journey in modern frontend development and application architecture.
 
 ## Live Demo
+
 🌐 https://nous-db.vercel.app
 
 ## Features
 
-- Character list page
+- Browse Honkai: Star Rail characters
 - Character detail pages
 - Search characters by name
 - Filter characters by element
 - Dynamic routing with Next.js App Router
-- Type-safe data models with TypeScript
-- Responsive UI built with Tailwind CSS
+- Type-safe data handling with TypeScript
+- Responsive user interface built with Tailwind CSS
 - External data integration from StarRailRes
 
 ## Tech Stack
@@ -24,14 +25,15 @@ This project was created as a learning journey to explore modern frontend develo
 - React
 - TypeScript
 - Tailwind CSS
+- Vercel
 
 ## Data Source
 
-All game data are provided by:
+Game data is provided by the StarRailRes project:
 
 - https://github.com/Mar-7th/StarRailRes
 
-This project does not own any game assets or data used from Honkai: Star Rail.
+This project does not own any game data, artwork, or intellectual property related to Honkai: Star Rail.
 
 ## Installation
 
@@ -53,9 +55,15 @@ Start the development server:
 npm run dev
 ```
 
-## Learning Goals
+Open your browser and visit:
 
-This project was built to learn:
+```text
+http://localhost:3000
+```
+
+## Project Goals
+
+This project serves as both a fan database and a learning platform for modern web development concepts, including:
 
 - React fundamentals
 - Next.js App Router
@@ -66,9 +74,21 @@ This project was built to learn:
 - Component Architecture
 - Data Normalization
 - Application Layout Design
+- Responsive UI Development
+
+## Roadmap
+
+Planned features include:
+
+- Character descriptions
+- Character statistics
+- Character skills and traces
+- Improved filtering options
+- Mobile navigation improvements
+- Additional game data pages
 
 ## Disclaimer
 
-Honkai: Star Rail and all related assets belong to HoYoverse.
+Honkai: Star Rail and all related names, assets, characters, and trademarks are the property of HoYoverse.
 
-This project is a non-commercial fan project created for educational purposes.
+Nous-DB is an unofficial, non-commercial fan project created for educational and portfolio purposes.
