@@ -24,38 +24,11 @@ This project was created as a learning journey to explore modern frontend develo
 
 ## Data Source
 
-Character, element, and path data are provided by:
+All game data are provided by:
 
 - https://github.com/Mar-7th/StarRailRes
 
 This project does not own any game assets or data used from Honkai: Star Rail.
-
-## Project Structure
-
-```text
-app/
-├── page.tsx
-├── layout.tsx
-├── characters/
-│   └── [id]/
-│       └── page.tsx
-
-components/
-├── CharacterCard.tsx
-├── Sidebar.tsx
-├── SearchBar.tsx
-└── ElementFilter.tsx
-
-lib/
-└── api/
-    └── starrail.ts
-
-types/
-├── character.ts
-├── element.ts
-├── path.ts
-└── starrail.ts
-```
 
 ## Installation
 
@@ -96,17 +69,6 @@ This project was built to learn:
 - Component Architecture
 - Data Normalization
 - Application Layout Design
-
-## Future Plans
-
-- Character descriptions
-- Character stats
-- Light Cone database
-- Relic database
-- Mobile sidebar navigation
-- Favorites system
-- Improved search and filtering
-- Character skill information
 
 ## Disclaimer
 
