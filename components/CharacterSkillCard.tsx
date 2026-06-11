@@ -6,16 +6,32 @@ import { CharacterSkill } from "@/types/character";
 
 type Props = {
 	skill: CharacterSkill;
-	level?: number;
+	level_basic?: number;
+	level_skill?: number;
 };
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function CharacterSkillCard({
 	skill,
-	level = 1,
+	level_basic = 6,
+	level_skill = 10,
 }: Props) {
-	const [selectedLevel, setSelectedLevel] = useState(level);
+	const [selectedLevelBasic, setSelectedLevelBasic] = useState(level_basic);
+	const [selectedLevelSkill, setSelectedLevelSkill] = useState(level_skill);
+
+	const isBasic = skill.type === "Normal" || skill.type_text === "Basic ATK";
+	const isTechnique = skill.type === "Maze" || skill.type_text === "Technique";
+
+	const selectedLevel = isTechnique
+		? 1
+		: isBasic
+			? selectedLevelBasic
+			: selectedLevelSkill;
+
+	const setSelectedLevel = isBasic
+		? setSelectedLevelBasic
+		: setSelectedLevelSkill;
 
 	const params = skill.params[selectedLevel - 1] ?? [];
 
@@ -64,8 +80,9 @@ export default function CharacterSkillCard({
 	return (
 		<div
 			className="
-				h-full overflow-hidden
-				rounded-3xl
+				flex h-full flex-col
+				overflow-hidden
+				rounded-2xl
 				border border-white/10
 				bg-white/[0.03]
 				backdrop-blur-xl
@@ -75,17 +92,17 @@ export default function CharacterSkillCard({
 			<div className="flex items-start gap-4 p-5">
 				<div
 					className="
-						flex h-14 w-14 shrink-0
+						flex h-12 w-12 shrink-0
 						items-center justify-center
-						rounded-2xl
+						rounded-xl
 						bg-black/30
 					"
 				>
 					<Image
 						src={`${BASE_URL}/${skill.icon}`}
 						alt={skill.name}
-						width={42}
-						height={42}
+						width={36}
+						height={36}
 					/>
 				</div>
 
@@ -93,7 +110,7 @@ export default function CharacterSkillCard({
 					<div className="flex items-center gap-2">
 						<h3
 							className="
-								truncate text-lg
+								truncate text-medium
 								font-semibold text-white
 							"
 						>
@@ -106,7 +123,7 @@ export default function CharacterSkillCard({
 								bg-cyan-400/10
 								px-2 py-1
 								text-[10px]
-								font-medium
+								font-sm
 								text-cyan-300
 							"
 						>
@@ -116,7 +133,7 @@ export default function CharacterSkillCard({
 
 					<p
 						className="
-							mt-1 text-sm
+							mt-1 text-xs
 							leading-relaxed
 							text-zinc-400
 						"
@@ -126,45 +143,10 @@ export default function CharacterSkillCard({
 				</div>
 			</div>
 
-			{/* Slider */}
-			<div className="px-5 pb-4">
-				<div className="mb-2 flex items-center justify-between">
-					<p className="text-xs text-zinc-500">
-						Skill Level
-					</p>
-
-					<p className="text-sm font-semibold text-cyan-300">
-						Lv. {selectedLevel}
-					</p>
-				</div>
-
-				<input
-					type="range"
-					min={1}
-					max={skill.params.length}
-					value={selectedLevel}
-					onChange={(e) =>
-						setSelectedLevel(Number(e.target.value))
-					}
-					className="
-						h-2 w-full
-						cursor-pointer
-						appearance-none
-						rounded-full
-						bg-white/10
-
-						[&::-webkit-slider-thumb]:h-4
-						[&::-webkit-slider-thumb]:w-4
-						[&::-webkit-slider-thumb]:appearance-none
-						[&::-webkit-slider-thumb]:rounded-full
-						[&::-webkit-slider-thumb]:bg-cyan-400
-					"
-				/>
-			</div>
-
 			{/* Description */}
 			<div
 				className="
+					flex-1
 					border-t border-white/5
 					bg-black/20
 					p-5
@@ -172,7 +154,7 @@ export default function CharacterSkillCard({
 			>
 				<p
 					className="
-						text-sm leading-7
+						text-xs leading-7
 						text-zinc-300
 					"
 				>
@@ -183,31 +165,46 @@ export default function CharacterSkillCard({
 			{/* Bottom */}
 			<div
 				className="
-					flex items-center justify-between
 					border-t border-white/5
 					bg-black/10
-					px-5 py-3
 				"
 			>
-				<div>
-					<p className="text-[10px] text-zinc-500">
-						LEVEL
-					</p>
+				{/* Slider */}
+				{!isTechnique && (
+					<div className="px-5 pt-4 pb-4">
+						<div className="mb-2 flex items-center justify-between">
+							<p className="text-xs text-zinc-500">
+								Skill Level
+							</p>
 
-					<p className="text-sm font-semibold text-white">
-						{selectedLevel}
-					</p>
-				</div>
+							<p className="text-xs font-semibold text-cyan-300">
+								Lv. {selectedLevel}
+							</p>
+						</div>
 
-				<div className="text-right">
-					<p className="text-[10px] text-zinc-500">
-						SCALING
-					</p>
-
-					<p className="text-sm font-semibold text-cyan-300">
-						{((params[0] ?? 0) * 100).toFixed(0)}%
-					</p>
-				</div>
+						<input
+							type="range"
+							min={1}
+							max={skill.params.length}
+							value={selectedLevel}
+							onChange={(e) =>
+								setSelectedLevel(Number(e.target.value))
+							}
+							className="
+								h-2 w-full
+								cursor-pointer
+								appearance-none
+								rounded-full
+								bg-white/10
+								[&::-webkit-slider-thumb]:h-4
+								[&::-webkit-slider-thumb]:w-4
+								[&::-webkit-slider-thumb]:appearance-none
+								[&::-webkit-slider-thumb]:rounded-full
+								[&::-webkit-slider-thumb]:bg-cyan-400
+							"
+						/>
+					</div>
+				)}
 			</div>
 		</div>
 	);

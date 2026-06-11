@@ -34,7 +34,7 @@ export default async function LightConeDetailPage({
 				{/* Left Side */}
 				<div className="lg:w-[40%]">
 					<Link
-						href="/"
+						href="/lightcones"
 						className="
 							inline-flex items-center gap-2
 							rounded-lg border border-white/10

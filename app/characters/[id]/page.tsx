@@ -1,7 +1,7 @@
 import { getStarRailCharacters, getStarRailItems } from "@/lib/api/starrail";
 import CharacterInfoSection from "@/components/CharacterInfoSection";
 import CharacterSkillCard from "@/components/CharacterSkillCard";
-
+import { CharacterLore } from "@/types/character";
 import { Item } from "@/types/item";
 import Image from "next/image";
 import Link from "next/link";
@@ -32,6 +32,7 @@ export default async function CharacterDetailPage({
 		getStarRailItems(),
 	]);
 
+	const description = CharacterLore[id]?.description ?? "";
 	const character = characters.find((c) => c.id === id);
 
 	if (!character) {
@@ -57,7 +58,7 @@ export default async function CharacterDetailPage({
 					{/* LEFT */}
 					<div className="lg:w-[40%]">
 						<Link
-							href="/"
+							href="/characters"
 							className="
 								inline-flex items-center gap-2
 								rounded-xl border border-white/10
@@ -124,14 +125,30 @@ export default async function CharacterDetailPage({
 						<Image
 							src={character.splashart}
 							alt={character.name}
-							width={600}
-							height={800}
+							width={550}
+							height={750}
 							className="
+								text-center
 								relative z-10 object-contain
 								drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]
 							"
 							priority
 						/>
+						<div
+							className="
+								mt-6 max-w-md
+								rounded-2xl
+								border border-white/10
+								bg-white/[0.03]
+								p-4
+								text-center text-sm
+								text-zinc-300
+								backdrop-blur-md
+								lg:text-left
+							"
+						>
+							<p className="italic">{description ?? "No Description Available."}</p>
+						</div>
 					</div>
 				</div>
 
@@ -142,18 +159,18 @@ export default async function CharacterDetailPage({
 
 				<div
 					className="
-						grid w-full
 						mt-3
+						grid w-full
 						grid-cols-2
+						auto-rows-fr
 						gap-6
-						items-start
 					"
 				>
 					{character.skills
 						.filter((skill) => !ignoredTypes.has(skill.type))
 						.map((skill) => (
 							<div key={skill.id} className="w-full min-w-0">
-								<CharacterSkillCard skill={skill} level={1} />
+								<CharacterSkillCard skill={skill} level_basic={6} level_skill={10} />
 							</div>
 						))}
 				</div>
